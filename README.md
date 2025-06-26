@@ -1,6 +1,8 @@
 # SPRING_SECURITY
-✅ Part 1: What is Spring Security?
-🔐 Definition
+## ✅ Part 1: What is Spring Security?
+
+### 🔐 Definition
+
 Spring Security is a powerful and highly customizable authentication and access-control framework for Java applications, especially those built with Spring Boot.
 
 It handles:
@@ -9,7 +11,8 @@ Authentication (Who are you?)
 
 Authorization (What are you allowed to do?)
 
-🔥 Why Use Spring Security?
+### 🔥 Why Use Spring Security?
+
 Built-in protection against common vulnerabilities (CSRF, XSS, etc.)
 
 Easily integrate with:
@@ -24,8 +27,10 @@ Supports role-based and method-level security
 
 Can customize login/logout and error handling
 
-⚙️ How Spring Security Works Internally
+### ⚙️ How Spring Security Works Internally
+
 📦 Components Involved:
+
 Component	Purpose
 SecurityFilterChain	Filters incoming requests for authentication/authorization
 AuthenticationManager	Authenticates user credentials
@@ -34,7 +39,8 @@ PasswordEncoder	Encrypts and matches passwords securely
 AuthenticationProvider	Actual authentication logic
 GrantedAuthority	Represents roles/permissions (like ROLE_ADMIN)
 
-🛡️ How Authentication Happens (Request Lifecycle):
+### 🛡️ How Authentication Happens (Request Lifecycle):
+
 Client sends login request (with username/password).
 
 SecurityFilterChain intercepts it.
@@ -46,9 +52,7 @@ If valid, it creates an Authentication object and stores it in SecurityContext.
 All future requests use this context to allow/deny access.
 
 🧱 Basic Folder Structure for Spring Security in Spring Boot
-css
-Copy
-Edit
+```cs
 src/
 └── main/
     └── java/
@@ -63,17 +67,19 @@ src/
             │   └── User.java
             └── repository/
                 └── UserRepository.java
-🛠️ Add Spring Security Dependency (Maven)
+```
+### 🛠️ Add Spring Security Dependency (Maven)
 xml
-Copy
-Edit
+```cs
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-security</artifactId>
 </dependency>
+```
 📦 Spring Boot auto-configures basic HTTP Basic login form with /login.
 
-🧪 Try It Out
+### 🧪 Try It Out
+
 If you add Spring Security with no config:
 
 Any endpoint is secured by default
@@ -84,29 +90,15 @@ Default user is user, password is shown in console
 
 Let me know when to go to:
 
-👉 Part 2: Custom Login, UserDetailsService & Password Encoding
+### 👉 Part 2: Custom Login, UserDetailsService & Password Encoding
 Just type next when you’re ready!
 
-
-
-
-
-
-
-
-You said:
-next
-
-
-ChatGPT said:
-Awesome! Let’s continue.
-✅ Part 2: Custom Login, UserDetailsService & Password Encoding
+## ✅ Part 2: Custom Login, UserDetailsService & Password Encoding
 This is where you start replacing Spring Security defaults with your own login logic and user data from your database.
 
-🔐 Step 1: Create a Custom User Entity
+### 🔐 Step 1: Create a Custom User Entity
 java
-Copy
-Edit
+```cs
 // entity/User.java
 @Entity
 public class User {
@@ -120,20 +112,20 @@ public class User {
 
     // getters & setters
 }
-📂 Step 2: Create a UserRepository
+```
+### 📂 Step 2: Create a UserRepository
 java
-Copy
-Edit
+```cs
 // repository/UserRepository.java
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsername(String username);
 }
-👤 Step 3: Implement UserDetailsService
+```
+### 👤 Step 3: Implement UserDetailsService
 Spring Security uses this to load users from your database.
 
 java
-Copy
-Edit
+```cs
 // service/CustomUserDetailsService.java
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -153,10 +145,10 @@ public class CustomUserDetailsService implements UserDetailsService {
         );
     }
 }
-🔑 Step 4: Configure Security — SecurityConfig.java
+```
+### 🔑 Step 4: Configure Security — SecurityConfig.java
 java
-Copy
-Edit
+```cs
 // config/SecurityConfig.java
 @Configuration
 @EnableWebSecurity
@@ -194,10 +186,10 @@ public class SecurityConfig {
                 .build();
     }
 }
-🔐 Step 5: Create Login API — AuthController.java
+```
+### 🔐 Step 5: Create Login API — AuthController.java
 java
-Copy
-Edit
+```cs
 // controller/AuthController.java
 @RestController
 @RequestMapping("/auth")
@@ -209,12 +201,12 @@ public class AuthController {
         return ResponseEntity.ok("Login handled by Spring Security");
     }
 }
-🔑 Step 6: Password Hashing in Registration (Important)
+```
+### 🔑 Step 6: Password Hashing in Registration (Important)
 When you register new users, always hash their password:
 
 java
-Copy
-Edit
+```cs
 @Autowired
 private PasswordEncoder passwordEncoder;
 
@@ -225,9 +217,11 @@ public ResponseEntity<String> register(@RequestBody User user) {
     userRepository.save(user);
     return ResponseEntity.ok("Registered");
 }
+```
 ✅ Output:
+```cs
 Custom login page (/auth/login)
-
+```
 Users authenticated from DB
 
 Encrypted passwords (BCrypt)
